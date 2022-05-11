@@ -1,0 +1,36 @@
+.story {
+    height:100%;
+    margin:auto;
+    background-color: white;
+    padding: 15px;
+}
+
+.story__inner {
+    height:100%;
+    width:100%;
+    overflow: none;
+}
+
+.story__title {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold; 
+}
+
+.story__image {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold; 
+}
+
+.story__teaser {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold; 
+}
+
+
+.story__body {
+    text-align: left;
+    font-size: 18px;
+}

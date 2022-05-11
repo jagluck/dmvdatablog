@@ -1,0 +1,10 @@
+.graphic {
+    width:100%;
+    height: auto;
+}
+
+.graphic__inner {
+    width: 90%;
+    height: 600px;
+    margin-left: 5%;
+}
