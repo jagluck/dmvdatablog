@@ -10,27 +10,30 @@ export default class Homepage extends React.Component{
         super(props);
     }
 
+    importAll(r) {
+        return r.keys().map(r);
+    }
+
     render() {
-         return (
+        
+        const stories = this.importAll(require.context('../../stories', false, /\.(json)$/));
+
+        let storyLinks = [];
+        for (const story in stories) {
+           storyLinks.push(
+                    <StoryLink 
+                        buttonClick={this.props.changeButtonState}
+                        storyId={stories[story]['storyId']}
+                        title= {stories[story]['title']}
+                        imageUrl = {stories[story]['imageUrl']}
+                        teaser = {stories[story]['teaser']}
+                    />
+           )
+        } 
+
+        return (
             <div className="homepage">
-                <StoryLink 
-                    buttonClick={this.props.changeButtonState}
-                    title= 'Story 1'
-                    imageUrl = 'https://cnsmaryland.org/interactives/spring-2019/bitter-cold/images/climateedit2.png'
-                    teaser = 'teaser'
-                />
-                <StoryLink
-                    buttonClick={this.props.changeButtonState}
-                    title= 'Story 2'
-                    imageUrl = 'https://cnsmaryland.org/interactives/spring-2019/bitter-cold/images/climateedit2.png'
-                    teaser = 'teaser'
-                />
-                <StoryLink
-                    buttonClick={this.props.changeButtonState}
-                    title= 'Story 3'
-                    imageUrl = 'https://cnsmaryland.org/interactives/spring-2019/bitter-cold/images/climateedit2.png'
-                    teaser = 'teaser'
-                />
+                {storyLinks}
             </div>
         );
     }

@@ -1,13 +1,17 @@
 import React from 'react';
 import Homepage from './homepage';
 import Story from './story';
-import StoryLink from './storyLink';
 
 import PropTypes from 'prop-types';
 
 export default class MainSection extends React.Component{
     constructor(props) {
         super(props);
+    }
+
+
+    importAll(r) {
+        return r.keys().map(r);
     }
 
     render() {
@@ -20,18 +24,22 @@ export default class MainSection extends React.Component{
                 </div>
             );
         } else if (this.props.story !== null) {
-            return (
-                <div className="main-section">
-                    <Story
-                        title={'Story 1'}
-                        body={'Story 1 body'}
-                        buttonClick={this.props.changeButtonState}
-                    />
-                </div>
-            )
+            const stories = this.importAll(require.context('../../stories', false, /\.(json)$/));
+            for (const story in stories) {
+                if (this.props.story === stories[story]['storyId']) {
+                    return (
+                        <div className="main-section">
+                            <Story
+                                title={stories[story]['title']}
+                                body={stories[story]['body']}
+                                buttonClick={this.props.changeButtonState}
+                            />
+                        </div>
+                    )
+                }
+            }
+            return null;
         } else {
-            console.log("B");
-
             return null 
         }
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../../resources/logo.svg';
+import logo from '../../resources/Leaf.png';
 import MainSection from './mainSection';
 
 export default class MainSectionController extends React.Component{
@@ -22,7 +22,7 @@ export default class MainSectionController extends React.Component{
         return (
             <div className="app">
             <div className="topnav" onClick={() =>  this.changeButtonState('homepage', null)}>
-              <img src={logo} width="100" height="50" />
+              <img src={logo} width="75" height="75" />
             </div>
             <div className='main'> 
               <div className='mainSection'> 
