@@ -126,9 +126,9 @@ export default class Movement extends React.Component{
     var baseMaps = {
     };
 
-    // var overlayMaps = {
-    //   "Bike Share Stations": oneToManyFlowmapLayer
-    // };
+    var overlayMaps = {
+      "Bike Share Stations": oneToManyFlowmapLayer
+    };
 
     var mymap = L.map('mapid', {
       // center: [38.9075, -77.033],
@@ -136,13 +136,7 @@ export default class Movement extends React.Component{
       layers: [streets]
     });
 
-    // var mymap = L.map('mapid', {
-    //   center: [38.9075, -77.033],
-    //   zoom: 13,
-    //   layers: [streets]
-    // });
-
-    // L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+    L.control.layers(baseMaps, overlayMaps).addTo(mymap);
     oneToManyFlowmapLayer.addTo(mymap);
 
     // since this demo is using the optional "pathDisplayMode" as "selection",
@@ -164,6 +158,8 @@ export default class Movement extends React.Component{
     // oneToManyFlowmapLayer.selectFeaturesForPathDisplayById('start_station_id', 31248 , true, 'SELECTION_NEW');
     }
     })
+
+    $('table').dataTable();
   }
 
   render() {
@@ -193,8 +189,11 @@ export default class Movement extends React.Component{
             <div id="mapid">
             </div>
         
+
           </div>
-      </div>     
+
+      </div>    
+    
       );
   }
 }

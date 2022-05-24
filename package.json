@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@tanstack/react-table": "^8.0.0-alpha.87",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+    "datatables.net": "^1.12.1",
+    "datatables.net-dt": "^1.12.1",
     "fast-csv": "^4.3.6",
     "fs": "^0.0.1-security",
     "jquery": "^3.6.0",

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import '../../css/story.css';
 import Papa from "papaparse";
 import movement from '../../stories/bike-share-movement/bikeShareMovement.csv';
+import 'datatables.net'
+import 'datatables.net-dt'
+import $ from 'jquery';
 
 import bikeMovement from '../../stories/bike-share-movement/index.jsx';
 
@@ -11,8 +14,7 @@ export default class Story extends React.Component{
         super(props);
     }
 
-
-    async getData()  {
+    async getData() {
         const res = await fetch(movement);
         const data = await res.text();
         const results = Papa.parse(data, {  header: true });
@@ -23,20 +25,13 @@ export default class Story extends React.Component{
         let mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}';
         let accessToken = 'pk.eyJ1IjoiamFnbHVjayIsImEiOiJjamFqeHNrdnQyZjFrMzNsZDBrcHM2dzd3In0.84EdvBJ5XlBpintC80Jlow';
 
-        var streets  = L.tileLayer(mbUrl, {
-            attribution: mbAttr,
-            id: 'mapbox/streets-v11',
-            accessToken: accessToken  
-        });
+        let mymap = L.map('mapid').setView([38.9075, -77.033], 13);
 
-        var container = L.DomUtil.get('mapid'); 
-        if(container != null){ container._leaflet_id = null; }
-        var mymap = L.map('mapid', {
-            center: [38.9075, -77.033],
-            zoom: 13,
-            layers: [streets]
-        });
-
+        let streets  = L.tileLayer(mbUrl, {
+          attribution: mbAttr,
+          id: 'mapbox/streets-v11',
+          accessToken: accessToken  
+        }).addTo(mymap);
 
         const geoJsonFeatureCollection = {
             type: 'FeatureCollection',
@@ -51,8 +46,6 @@ export default class Story extends React.Component{
               }
             })
           };
-
-          console.log(geoJsonFeatureCollection);
 
           var oneToManyFlowmapLayer = L.canvasFlowmapLayer(geoJsonFeatureCollection, {
             originAndDestinationFieldIds: {
@@ -126,21 +119,75 @@ export default class Story extends React.Component{
             animationStarted: false
           })
 
+
+          var baseMaps = {
+          };
+      
+          var overlayMaps = {
+            "Bike Share Stations": oneToManyFlowmapLayer
+          };
+
+          L.control.layers(baseMaps, overlayMaps).addTo(mymap);
           oneToManyFlowmapLayer.addTo(mymap);
+       
 
            // since this demo is using the optional "pathDisplayMode" as "selection",
             // it is up to the developer to wire up a click or mouseover listener
             // and then call the "selectFeaturesForPathDisplay()" method to inform the layer
             // which Bezier paths need to be drawn
-            oneToManyFlowmapLayer.on('click', function(e) {
-                console.log(e);
-                if (e.sharedOriginFeatures.length) {
-                oneToManyFlowmapLayer.selectFeaturesForPathDisplay(e.sharedOriginFeatures, 'SELECTION_NEW');
+          oneToManyFlowmapLayer.on('click', function(e) {
+              console.log(e);
+              if (e.sharedOriginFeatures.length) {
+              oneToManyFlowmapLayer.selectFeaturesForPathDisplay(e.sharedOriginFeatures, 'SELECTION_NEW');
+              }
+              if (e.sharedDestinationFeatures.length) {
+              oneToManyFlowmapLayer.selectFeaturesForPathDisplay(e.sharedDestinationFeatures, 'SELECTION_NEW');
+              }
+          });
+
+          mymap.on('click', function(e) {
+            let found = false;
+            for (var key in oneToManyFlowmapLayer['_layers']) {
+              if (oneToManyFlowmapLayer['_layers'].hasOwnProperty(key)) {
+                if (oneToManyFlowmapLayer['_layers'][key]['_latlng'] === e['latlng']) {
+                  console.log("found!");
+                  found = true;
                 }
-                if (e.sharedDestinationFeatures.length) {
-                oneToManyFlowmapLayer.selectFeaturesForPathDisplay(e.sharedDestinationFeatures, 'SELECTION_NEW');
-                }
-            });
+              }
+            }
+
+            if (!found) {
+              // remove all paths on non point click
+              oneToManyFlowmapLayer.clearAllPathSelections();
+            }
+          });
+
+
+          $('#dataTable').DataTable( {
+            paginate: true,
+            scrollY: 300,
+            "bDestroy": true,
+            data: results['data'],
+            columnDefs: [{
+              "defaultContent": "-"
+            }],
+            columns: [
+              { title: 'Start Station Location', data: 'start_station_name' },
+              { title: 'End Station Location', data: 'end_station_name' },
+              { title: 'Total Rides', data: 'total_ride' },
+            ],
+            order: [[2, 'desc']],
+          } );
+
+          $('#dataTable').on('click', 'tbody td', function() {
+
+            //get textContent of the TD
+            console.log('TD cell textContent : ', this.textContent)
+          
+            //get the value of the TD using the API 
+            console.log('value by API : ', table.cell({ row: this.parentNode.rowIndex, column : this.cellIndex }).data());
+          })  
+          mymap.dragging.enable();
     }
 
     componentDidMount() {
@@ -148,11 +195,23 @@ export default class Story extends React.Component{
     }
 
     render() {
-        const position = [51.505, -0.09]
+        var tableDivStyle = {
+          marginTop: '25px',
+          border: '1px black solid',
+          height: '100%',
+          padding: '15px',
+          marginTop: '25px',
+        }
          return (
             <div className="story">
+                {/* <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.css"></link>
+                <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.js"></script> */}
                 <div className="story__inner">
                     <div style={{height:"800px"}} id="mapid">
+                    </div>
+                    <div style={tableDivStyle}>
+                      <table id="dataTable" className="stripe">
+                      </table>
                     </div>
                 </div>
             </div>

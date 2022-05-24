@@ -9,6 +9,8 @@
     height:100%;
     width:100%;
     overflow: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .story__title {
@@ -33,4 +35,10 @@
 .story__body {
     text-align: left;
     font-size: 18px;
+}
+
+@import url('https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css');
+
+#dataTable tbody td:hover {
+   cursor: pointer;
 }
