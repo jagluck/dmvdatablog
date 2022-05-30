@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */ 
+/* eslint-disable no-undef */
 L.KML = L.FeatureGroup.extend({
 	options: {
 		async: true

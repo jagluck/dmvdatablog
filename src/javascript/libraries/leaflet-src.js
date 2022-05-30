@@ -2,6 +2,8 @@
  * Leaflet 1.2.0+Detached: 1ac320ba232cb85b73ac81f3d82780c9d07f0d4e.1ac320b, a JS library for interactive maps. http://leafletjs.com
  * (c) 2010-2017 Vladimir Agafonkin, (c) 2010-2011 CloudMade
  */
+/* eslint-disable no-unused-expressions */ 
+/* eslint-disable no-undef */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
