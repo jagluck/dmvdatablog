@@ -401,11 +401,13 @@ function checkDeprecatedMixinEvents(includes) {
 
 	// eslint-disable-next-line no-undef
 	for (var i = 0; i < includes.length; i++) {
+		/* eslint-disable no-undef */
 		if (includes[i] === L.Mixin.Events) {
 			console.warn('Deprecated include of L.Mixin.Events: ' +
 				'this property will be removed in future releases, ' +
 				'please inherit from L.Evented instead.', new Error().stack);
 		}
+		/* eslint-enable no-undef */
 	}
 }
 
@@ -5741,7 +5743,7 @@ var Draggable = Evented.extend({
 
 			addClass(document.body, 'leaflet-dragging');
 
-			// eslint-disable-next-line no-undef
+			/* eslint-disable no-undef */
 			this._lastTarget = e.target || e.srcElement;
 			// IE and Edge do not give the <use> element, so fetch it
 			// if necessary
@@ -5749,6 +5751,7 @@ var Draggable = Evented.extend({
 				this._lastTarget = this._lastTarget.correspondingUseElement;
 			}
 			addClass(this._lastTarget, 'leaflet-drag-target');
+			/* eslint-enable no-undef */
 		}
 
 		this._newPos = this._startPos.add(offset);
@@ -11822,10 +11825,12 @@ var Canvas = Renderer.extend({
 			this._drawFirst = next;
 		}
 
-		// eslint-disable-next-line no-undef
+		/* eslint-disable no-undef */
 		delete layer._order;
 
+		// eslint-disable-next-line no-undef
 		delete this._layers[L.stamp(layer)];
+		/* eslint-enable no-undef */
 
 		this._requestRedraw(layer);
 	},
