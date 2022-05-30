@@ -394,10 +394,12 @@ Class.addInitHook = function (fn) { // (Function) || (String, args...)
 };
 
 function checkDeprecatedMixinEvents(includes) {
+	// eslint-disable-next-line no-undef
 	if (!L || !L.Mixin) { return; }
 
 	includes = isArray(includes) ? includes : [includes];
 
+	// eslint-disable-next-line no-undef
 	for (var i = 0; i < includes.length; i++) {
 		if (includes[i] === L.Mixin.Events) {
 			console.warn('Deprecated include of L.Mixin.Events: ' +
@@ -5739,6 +5741,7 @@ var Draggable = Evented.extend({
 
 			addClass(document.body, 'leaflet-dragging');
 
+			// eslint-disable-next-line no-undef
 			this._lastTarget = e.target || e.srcElement;
 			// IE and Edge do not give the <use> element, so fetch it
 			// if necessary
@@ -11819,6 +11822,7 @@ var Canvas = Renderer.extend({
 			this._drawFirst = next;
 		}
 
+		// eslint-disable-next-line no-undef
 		delete layer._order;
 
 		delete this._layers[L.stamp(layer)];
