@@ -23,7 +23,11 @@ export default class Traffic extends React.Component{
     const data = await res.text();
     const results = Papa.parse(data, { header: true, skipEmptyLines: true });
 
-    let mymap = L.map('mapid').setView([38.9075, -77.033], 13);
+    var container = L.DomUtil.get('trafficmap');
+    if(container != null){
+      container._leaflet_id = null;
+    }
+    let trafficmap = L.map('trafficmap').setView([38.9075, -77.033], 13);
 
     let mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
     '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -34,26 +38,11 @@ export default class Traffic extends React.Component{
       attribution: mbAttr,
       id: 'mapbox/streets-v11',
       accessToken: accessToken  
-    }).addTo(mymap);
+    }).addTo(trafficmap);
 
     function numberWithCommas(x) {
       return Math.floor(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-
-    var planes = [];
-    var yellowIcon = new L.Icon({
-      iconUrl: 'css/images/marker-icon-yellow.png',
-      iconSize: [9, 13.5],
-      iconAnchor: [4.5, 13.5],
-      popupAnchor: [0, -13.5]
-    });
-
-    var redIcon = new L.Icon({
-      iconUrl: 'css/images/marker-icon-red.png',
-      iconSize: [9, 13.5],
-      iconAnchor: [4.5, 13.5],
-      popupAnchor: [0, -13.5]
-    });
 
     let arrsize = Object.keys(results.data).length;
     var arrivals = [];
@@ -65,9 +54,11 @@ export default class Traffic extends React.Component{
         let totalArrivals = numberWithCommas(results.data[i].total_in);
         let totalDepartures = numberWithCommas(results.data[i].total_out);
 
-        let marker = new L.circleMarker([lat,long],{radius:Math.ceil(results.data[i].total_in/2000)}).bindPopup("<p>" + results.data[i].station + "</p><p>Total Arivals: " + totalArrivals + "<br>Total Departures: " + totalDepartures + "</p>");
+        let marker = new L.circleMarker([lat,long],{radius:Math.ceil(results.data[i].total_in/1000)}).bindPopup("<p>" + results.data[i].station + "</p><p>Total Arivals: " + totalArrivals + "<br>Total Departures: " + totalDepartures + "</p>");
+        marker.setStyle({color: 'green'});
         arrivals.push(marker);
-        marker = new L.circleMarker([lat,long],{radius:Math.ceil(results.data[i].total_out/2000)}).bindPopup("<p>" + results.data[i].station + "</p><p>Total Arivals: " + totalArrivals + "<br>Total Departures: " + totalDepartures + "</p>");
+        marker = new L.circleMarker([lat,long],{radius:Math.ceil(results.data[i].total_out/1000)}).bindPopup("<p>" + results.data[i].station + "</p><p>Total Arivals: " + totalArrivals + "<br>Total Departures: " + totalDepartures + "</p>");
+        marker.setStyle({color: 'red'});
         departures.push(marker);
     }
 
@@ -82,8 +73,8 @@ export default class Traffic extends React.Component{
       "Bike Share Departures": departurePoints,      
     };
 
-    L.control.layers(baseMaps, overlayMaps).addTo(mymap);
-    arrivalPoints.addTo(mymap);
+    L.control.layers(baseMaps, overlayMaps).addTo(trafficmap);
+    arrivalPoints.addTo(trafficmap);
 
     $('#dataTable').DataTable( {
       paginate: true,
@@ -105,7 +96,7 @@ export default class Traffic extends React.Component{
       //get the value of the TD using the API 
       console.log('value by API : ', table.cell({ row: this.parentNode.rowIndex, column : this.cellIndex }).data());
     })  
-    mymap.dragging.enable();
+    trafficmap.dragging.enable();
   }
 
   componentDidMount() {
@@ -123,7 +114,7 @@ export default class Traffic extends React.Component{
     return (
       <div className="story">
         <div className="story__inner">
-          <div style={{height:"800px"}} id="mapid">
+          <div style={{height:"800px"}} id="trafficmap">
           </div>
           <div style={tableDivStyle}>
             <table id="dataTable" className="stripe">

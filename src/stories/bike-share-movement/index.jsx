@@ -21,7 +21,11 @@ export default class Movement extends React.Component{
     const data = await res.text();
     const results = Papa.parse(data, {  header: true });
 
-    let mymap = L.map('mapid').setView([38.9075, -77.033], 13);
+    var container = L.DomUtil.get('movementmap');
+    if(container != null){
+      container._leaflet_id = null;
+    }
+    let movementmap = L.map('movementmap').setView([38.9075, -77.033], 13);
 
     let mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
     '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -32,7 +36,7 @@ export default class Movement extends React.Component{
       attribution: mbAttr,
       id: 'mapbox/streets-v11',
       accessToken: accessToken  
-    }).addTo(mymap);
+    }).addTo(movementmap);
 
     const geoJsonFeatureCollection = {
       type: 'FeatureCollection',
@@ -127,8 +131,8 @@ export default class Movement extends React.Component{
       "Bike Share Stations": oneToManyFlowmapLayer
     };
 
-    L.control.layers(baseMaps, overlayMaps).addTo(mymap);
-    oneToManyFlowmapLayer.addTo(mymap);
+    L.control.layers(baseMaps, overlayMaps).addTo(movementmap);
+    oneToManyFlowmapLayer.addTo(movementmap);
 
     // since this demo is using the optional "pathDisplayMode" as "selection",
     // it is up to the developer to wire up a click or mouseover listener
@@ -143,7 +147,7 @@ export default class Movement extends React.Component{
         }
     });
 
-    mymap.on('click', function(e) {
+    movementmap.on('click', function(e) {
       let found = false;
       for (var key in oneToManyFlowmapLayer['_layers']) {
         if (oneToManyFlowmapLayer['_layers'].hasOwnProperty(key)) {
@@ -183,7 +187,7 @@ export default class Movement extends React.Component{
       //get the value of the TD using the API 
       console.log('value by API : ', table.cell({ row: this.parentNode.rowIndex, column : this.cellIndex }).data());
     })  
-    mymap.dragging.enable();
+    movementmap.dragging.enable();
   }
 
   componentDidMount() {
@@ -201,7 +205,7 @@ export default class Movement extends React.Component{
     return (
       <div className="story">
         <div className="story__inner">
-          <div style={{height:"800px"}} id="mapid">
+          <div style={{height:"800px"}} id="movementmap">
           </div>
           <div style={tableDivStyle}>
             <table id="dataTable" className="stripe">

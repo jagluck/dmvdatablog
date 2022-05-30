@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import '../../css/story.css';
 import Movement from '../../stories/bike-share-movement/index.jsx';
 import Traffic from '../../stories/bike-share-traffic/index.jsx';
-
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 
 export default class Story extends React.Component{
     constructor(props) {
@@ -19,12 +20,18 @@ export default class Story extends React.Component{
         }
          return (
             <div className="story">
-                {/* <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.css"></link>
-                <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.js"></script> */}
-                <div className="story__inner">
-                    {/* <Movement></Movement> */}
-                    <Traffic></Traffic>
-                </div>
+                <Tabs className={"justify-content-center"}>
+                    <TabList>
+                        <Tab> Movement </Tab>
+                        <Tab> Traffic </Tab>
+                    </TabList>
+                    <TabPanel>
+                        <Movement></Movement>
+                    </TabPanel>
+                    <TabPanel>
+                        <Traffic></Traffic>
+                    </TabPanel>
+                </Tabs>    
             </div>
         );
     }

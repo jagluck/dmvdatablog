@@ -31,10 +31,18 @@
     font-weight: bold; 
 }
 
-
 .story__body {
     text-align: left;
     font-size: 18px;
+}
+
+.react-tabs__tab-list {
+    text-align: center;
+}
+
+.react-tabs__tab {
+    width: 35%;
+    font-weight: bold;
 }
 
 @import url('https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css');
