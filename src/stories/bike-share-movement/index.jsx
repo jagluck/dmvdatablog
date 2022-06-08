@@ -133,6 +133,26 @@ export default class Movement extends React.Component{
       "Bike Share Stations": oneToManyFlowmapLayer
     };
 
+    var legend = L.control({position: 'bottomright'});
+
+    legend.onAdd = function (mymap) {
+
+        var div = L.DomUtil.create('div', 'info legend'),
+        labels = [];
+        labels.push(
+            '<span style=\"text-align:center\""> Total Rides </span>');
+        labels.push(
+            '<div class="legend__container"><div class="legend__color" style="background:green;"> </div> <span class="legend__text"> &nbsp 20 - 49 &nbsp </span></div>');
+        labels.push(
+            '<div class="legend__container"><div class="legend__color" style="background:blue;"> </div> <span class="legend__text"> &nbsp 50 - 99 &nbsp </span></div>');
+        labels.push(
+                '<div class="legend__container"><div class="legend__color" style="background:red;"> </div> <span class="legend__text"> &nbsp > 100 &nbsp </span></div>');
+        div.innerHTML = labels.join('');
+        return div;
+    };
+
+    legend.addTo(movementmap);
+
     L.control.layers(baseMaps, overlayMaps).addTo(movementmap);
     oneToManyFlowmapLayer.addTo(movementmap);
 

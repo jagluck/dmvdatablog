@@ -50,3 +50,36 @@
 #dataTable tbody td:hover {
    cursor: pointer;
 }
+
+.legend {
+    line-height: 18px;
+    color: #555;
+    background-color: lightgray;
+    padding: 10px;
+}
+
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.legend .legend__container {
+    display:grid;
+}
+
+.legend .legend__color {
+    height: 10px;
+    width: 10px;
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+}
+
+.legend .legend__text {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+}
