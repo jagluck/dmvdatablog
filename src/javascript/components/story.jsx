@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../../css/story.css';
-import Movement from '../../stories/bike-share-movement/index.jsx';
-import Traffic from '../../stories/bike-share-traffic/index.jsx';
+import Movement from '../../stories/bike-share/bike-share-movement/index.jsx';
+import Traffic from '../../stories/bike-share/bike-share-traffic/index.jsx';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
@@ -46,4 +46,5 @@ Story.propTypes = {
     title: PropTypes.string,
     body: PropTypes.string,
     changeButtonState: PropTypes.func,
+    componentName: PropTypes.string,
 };

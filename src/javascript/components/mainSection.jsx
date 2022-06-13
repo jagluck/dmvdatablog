@@ -24,7 +24,7 @@ export default class MainSection extends React.Component{
                 </div>
             );
         } else if (this.props.story !== null) {
-            const stories = this.importAll(require.context('../../stories', false, /\.(json)$/));
+            const stories = this.importAll(require.context('../../stories', true, /\.(json)$/));
             for (const story in stories) {
                 if (this.props.story === stories[story]['storyId']) {
                     return (
@@ -33,6 +33,7 @@ export default class MainSection extends React.Component{
                                 title={stories[story]['title']}
                                 body={stories[story]['body']}
                                 buttonClick={this.props.changeButtonState}
+                                componentName={stories[story]['componentName']}
                             />
                         </div>
                     )

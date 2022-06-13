@@ -1,0 +1,8 @@
+{
+    "storyId": "bike-share",
+    "title": "2021 Bike Share Data",
+    "body": "A look at ridership data from DC bike shares",
+    "imageUrl": "https://cnsmaryland.org/interactives/spring-2019/bitter-cold/images/climateedit2.png",
+    "teaser": "A look at ridership data from DC bike shares",
+    "componentName": "BikeShare"
+}

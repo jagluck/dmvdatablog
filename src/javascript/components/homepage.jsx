@@ -14,10 +14,8 @@ export default class Homepage extends React.Component{
         return r.keys().map(r);
     }
 
-    render() {
-        
-        const stories = this.importAll(require.context('../../stories', false, /\.(json)$/));
-
+    render() {   
+        const stories = this.importAll(require.context('../../stories', true, /\.(json)$/));
         let storyLinks = [];
         for (const story in stories) {
            storyLinks.push(
