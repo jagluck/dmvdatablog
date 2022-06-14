@@ -100,9 +100,20 @@ export default class Traffic extends React.Component{
         let size = this.getSize(totalTrips);
         if (size > 0) {
           let marker = new L.circleMarker([lat,long],{radius:Math.ceil(size)}).bindPopup("<p>" + results.data[i].station + "</p><p>Total Arrivals + Departures: " + numberWithCommas(totalTrips) + "<br>Total Arivals: " + totalArrivals + "<br>Total Departures: " + totalDepartures + "<br>Arrivals/Departues: " + results.data[i].differences + "</p>");
-          marker.setStyle({color: 'black'});
+          marker.feature = { 
+            location: results.data[i].station, 
+          };
           marker.setStyle({fillColor: color});
           marker.setStyle({fillOpacity: 1.0});
+
+          marker.on('click',  function() {
+            $('#dataTable').DataTable().search(marker['feature']['location']).draw();
+          });
+
+          marker.getPopup().on('remove', function() {
+            $('#dataTable').DataTable().search('').draw();
+          });
+
           bikeShares.push(marker);
         }
     }

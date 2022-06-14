@@ -165,12 +165,16 @@ export default class Movement extends React.Component{
     // which Bezier paths need to be drawn
     oneToManyFlowmapLayer.on('click', function(e) {
         if (e.sharedOriginFeatures.length) {
-        oneToManyFlowmapLayer.selectFeaturesForPathDisplay(e.sharedOriginFeatures, 'SELECTION_NEW');
+          oneToManyFlowmapLayer.selectFeaturesForPathDisplay(e.sharedOriginFeatures, 'SELECTION_NEW');
         }
         if (e.sharedDestinationFeatures.length) {
-        oneToManyFlowmapLayer.selectFeaturesForPathDisplay(e.sharedDestinationFeatures, 'SELECTION_NEW');
+          oneToManyFlowmapLayer.selectFeaturesForPathDisplay(e.sharedDestinationFeatures, 'SELECTION_NEW');
         }
+
+        $('#dataTable').DataTable().column(0).search(e['layer']['feature']['properties']['start_station_name']).draw();
     });
+
+    
 
     movementmap.on('click', function(e) {
       let found = false;
@@ -185,6 +189,7 @@ export default class Movement extends React.Component{
       if (!found) {
         // remove all paths on non point click
         oneToManyFlowmapLayer.clearAllPathSelections();
+        $('#dataTable').DataTable().column(0).search('').draw();
       }
     });
 
